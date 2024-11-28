@@ -1,0 +1,1 @@
+helm upgrade ghr ghrhelm/ --namespace=githubhostedrunner

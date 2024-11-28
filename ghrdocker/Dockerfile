@@ -1,19 +1,35 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 RUN apt-get update && apt-get -y install curl \
     iputils-ping \
     apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release \
     tar \
     jq \
-    python && \
+    git \
+    unzip \
+    libicu-dev \
+    htop \
+    python-is-python3 \
+    python3 && \
     apt-get clean && apt-get autoremove
 
-ARG GH_RUNNER_VERSION="2.283.3"
+RUN apt-get install -y podman
+RUN #sed -i '/%t/podman/podman.sock/c\/var/run/docker.sock' /usr/lib/systemd/user/podman.socket
+RUN #systemctl restart podman
+RUN ln -s /usr/bin/podman /usr/bin/docker
+
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+ARG GH_RUNNER_VERSION="2.321.0"
 WORKDIR /actions-runner
-RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz" && \
-    tar -zxf actions.tar.gz && \
-    rm -f actions.tar.gz && \
-    ./bin/installdependencies.sh
+RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz"
+RUN tar -zxf actions.tar.gz
+RUN rm -f actions.tar.gz
+RUN ./bin/installdependencies.sh
 
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh

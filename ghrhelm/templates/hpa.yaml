@@ -5,11 +5,13 @@ metadata:
   name: {{ include "ghr.fullname" . }}
   labels:
     {{- include "ghr.labels" . | nindent 4 }}
+  namespace: {{ .Release.Namespace }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "ghr.fullname" . }}
+    namespace: {{ .Release.Namespace }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:

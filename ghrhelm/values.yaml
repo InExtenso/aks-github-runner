@@ -5,8 +5,9 @@
 replicaCount: 1
 
 image:
-  repository: ""
+  repository: "iehprdacr0120.azurecr.io/aks-github-runner"
   pullPolicy: IfNotPresent
+  tag: "0.0.14"
 
 ingress:
   enabled: false
@@ -29,22 +30,24 @@ service:
 
 resources:
   requests:
-    memory: "256Mi"
-    cpu: "500m"
-  limits:
-    memory: "512Mi"
+    memory: "1Gi"
     cpu: "1"
+    ephemeral-storage: '20Gi'
+  limits:
+    memory: "2Gi"
+    cpu: "2"
+    ephemeral-storage: '40Gi'
 
 ghr:
-  repo_owner: ""
-  repo_name: ""
-  repo_url: ""
-  github_token: ""
+  repo_owner: "InExtenso"
+  repo_name: "aks-github-runner"
+  repo_url: "https://github.com/InExtenso"
+  github_token: "CHANGETHIS"
 
 autoscaling:
-  enabled: true
+  enabled: false
   minReplicas: 1
-  maxReplicas: 100
+  maxReplicas: 10
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
