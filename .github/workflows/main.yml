@@ -21,7 +21,7 @@ jobs:
 
       - uses: azure/login@v2.2.0
         with:
-          creds: ${AZ_CRENDENTIALS}
+          creds: ${{ env.AZ_CRENDENTIALS }}
 
       - name: Build and push Github Runner image
         run: |
