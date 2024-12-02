@@ -6,6 +6,7 @@ on: workflow_dispatch
 env:
   RESOURCE_GROUP_NAME: ${{ vars.AKS_RG_PROD }}
   CLUSTER_NAME: ${{ vars.AKS_CLUSTER_NAME_PROD }}
+  AZ_CRENDENTIALS: ${{ secrets.AZURE_CREDENTIALS_PROD }}
   ACR_NAME: ${{ vars.ACR_LOGIN_SERVER }}
   GH_TOKEN: ${{ secrets.GH_TOKEN_AKS_RUNNER }}
   HELM_EXPERIMENTAL_OCI: 1
@@ -20,7 +21,7 @@ jobs:
 
       - uses: azure/login@v2.2.0
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+          creds: ${AZ_CRENDENTIALS}
 
       - name: Build and push Github Runner image
         run: |
