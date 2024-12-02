@@ -53,4 +53,5 @@ jobs:
           helm install ghrunner ghr-0.0.1.tgz \
             --set image.repository=${ACR_NAME}.azurecr.io/ghrunner \
             --set image.tag=${GITHUB_SHA} \
-            --set ghr.github_token=${GH_TOKEN}
+            --set ghr.github_token=${GH_TOKEN} \
+            --namespace==githubhostedrunner
