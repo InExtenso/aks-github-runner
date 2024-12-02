@@ -1,7 +1,21 @@
 # This workflow creates a self-hosted Github Runner on AKS
 name: AKS Self Hosted Runner
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      min-runners:
+        description: 'Minimum runners'
+        required: true
+        type: choice
+        options: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10' ]
+        default: '10'
+      max-runners:
+        description: 'Maximum runners'
+        required: true
+        type: choice
+        options: [ '1', '2', '3', '4', '5', '6', '7', '8', '9', '10' ]
+        default: '3'
 
 env:
   RESOURCE_GROUP_NAME: ${{ vars.AKS_RG_PROD }}
@@ -14,6 +28,7 @@ env:
 
 jobs:
   build:
+    name:
 #    Use github public runners
     runs-on: ubuntu-22.04
 
@@ -54,4 +69,7 @@ jobs:
             --set image.repository=${ACR_NAME}.azurecr.io/ghrunner \
             --set image.tag=${GITHUB_SHA} \
             --set ghr.github_token=${GH_TOKEN} \
+            --set replicaCount=${github.event.inputs.min-runners} \
+            --set autoscaling.minReplicas=${github.event.inputs.min-runners} \
+            --set autoscaling.maxReplicas=${github.event.inputs.max-runners} \
             --namespace==githubhostedrunner
