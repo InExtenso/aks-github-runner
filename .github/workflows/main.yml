@@ -10,7 +10,8 @@ env:
   ACR_NAME: ${{ vars.ACR_LOGIN_SERVER }}
   GH_TOKEN: ${{ secrets.GH_TOKEN_AKS_RUNNER }}
   HELM_EXPERIMENTAL_OCI: 1
-  
+  ACR_SUBSCRIPTION_ID: ${{vars.ACR_SUBSCRIPTION_ID}}
+
 jobs:
   build:
 #    Use github public runners
@@ -25,6 +26,7 @@ jobs:
 
       - name: Build and push Github Runner image
         run: |
+          az account set --subscription ${ACR_SUBSCRIPTION_ID}
           az configure --defaults acr=${ACR_NAME}
           az acr build -t ghrunner:${GITHUB_SHA} ./ghrdocker
 
