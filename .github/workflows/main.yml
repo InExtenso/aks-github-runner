@@ -42,7 +42,7 @@ jobs:
       - name: Build and push Github Runner image
         run: |
           az account set --subscription ${ACR_SUBSCRIPTION_ID}
-          az configure --defaults acr=${ACR_NAME}
+          az configure --defaults acr=${ACR_RG}/${ACR_NAME}
           az acr build -t ghrunner:${GITHUB_SHA} ./ghrdocker
 
       - name: Create Helm chart
