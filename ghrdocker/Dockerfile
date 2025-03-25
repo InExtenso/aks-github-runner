@@ -24,7 +24,7 @@ RUN ln -s /usr/bin/podman /usr/bin/docker
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
-ARG GH_RUNNER_VERSION="2.321.0"
+ARG GH_RUNNER_VERSION="2.323.0"
 WORKDIR /actions-runner
 RUN curl -o actions.tar.gz --location "https://github.com/actions/runner/releases/download/v${GH_RUNNER_VERSION}/actions-runner-linux-x64-${GH_RUNNER_VERSION}.tar.gz"
 RUN tar -zxf actions.tar.gz
